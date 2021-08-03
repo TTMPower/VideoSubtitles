@@ -1,10 +1,3 @@
-//
-//  PickerViewController.swift
-//  VideoSubtitles
-//
-//  Created by Владислав Вишняков on 02.08.2021.
-//
-
 import UIKit
 import AVFoundation
 
@@ -21,7 +14,9 @@ class PickerViewController: UIViewController, UIImagePickerControllerDelegate, U
         picker.allowsEditing = true
         present(picker, animated: true, completion: nil)
     }
+    
     // MARK: Делегат отмены выбора видео
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
         print("Видео не выбрано")
@@ -36,6 +31,8 @@ class PickerViewController: UIViewController, UIImagePickerControllerDelegate, U
         }
         transferURL(url: movieUrl)
     }
+    
+    // MARK: Передача полученного урл на другой экран
     
     func transferURL(url: URL) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
