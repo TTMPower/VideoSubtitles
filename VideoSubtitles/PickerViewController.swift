@@ -38,7 +38,7 @@ class PickerViewController: UIViewController, UIImagePickerControllerDelegate, U
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let secondViewController = storyboard.instantiateViewController(identifier: "SecondViewController") as? EditorViewController else { return }
         secondViewController.urlVideo = url
-        present(secondViewController, animated: true)
+        show(secondViewController, sender: nil)
     }
     
     override func viewDidLoad() {
