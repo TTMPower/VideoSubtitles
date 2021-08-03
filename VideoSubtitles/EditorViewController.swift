@@ -8,17 +8,17 @@ class EditorViewController: UIViewController {
     var timeObserver: Any?
     var minuteTimeOut = Int()
     var secondTimeOut = Int()
+    var mediaDurationOut = Int()
     
     @IBAction func transferTime(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let addSubViewController = storyboard.instantiateViewController(identifier: "addSubID") as? AddSubViewController else { return }
         addSubViewController.currentTime = timeLineLabel.text ?? "Ошибка"
-        addSubViewController.minuteTimeOut = minuteTimeOut
-        addSubViewController.secondTimeOut = secondTimeOut
         addSubViewController.modalPresentationStyle = .overCurrentContext
         addSubViewController.view.backgroundColor = .clear
+        addSubViewController.mediaDuarion = mediaDurationOut
         present(addSubViewController, animated: true, completion: nil)
-        print("Попытка передать МИНУТ \(minuteTimeOut) : СЕКУНД \(secondTimeOut) =========")
+        print("Попытка передать \(mediaDurationOut)")
     }
     //MARK: таймер исчезновения кнопки плей/пауза
     func timers() {
@@ -137,6 +137,7 @@ class EditorViewController: UIViewController {
         print("Попытка получить тотал секонд \(totalSeconds)")
         let mediaDuration = formattedTime(minute: totalSeconds, second: totalSeconds)
         endTimeLabel.text = mediaDuration
+        mediaDurationOut = totalSeconds
         
         if let unwrapURL = urlVideo {
             player = AVPlayer(url: unwrapURL)

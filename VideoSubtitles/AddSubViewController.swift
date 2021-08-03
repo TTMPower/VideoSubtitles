@@ -9,9 +9,13 @@ import UIKit
 
 class AddSubViewController: UIViewController {
     
+    var minutes:Int = 0
+    var seconds:Int = 0
+    
     var currentTime = String()
     var minuteTimeOut = Int()
     var secondTimeOut = Int()
+    var mediaDuarion = Int()
     
     @IBOutlet weak var endTimePicker: UIPickerView!
     @IBOutlet weak var startAtOutlet: UILabel!
@@ -19,40 +23,43 @@ class AddSubViewController: UIViewController {
     @IBAction func closeWindow(_ sender: Any) {
         dismiss(animated: true)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        startAtOutlet.text = currentTime
-        print("Попытка получить \(currentTime)")
         endTimePicker.delegate = self
+        startAtOutlet.text = currentTime
+        print("Попытка получить секунды \(secondTimeOut)")
+        print("Попытка получить минуты \(minuteTimeOut)")
     }
 }
 
 extension AddSubViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
-    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch component {
         case 0:
-            return minuteTimeOut
+            return mediaDuarion / 60
         case 1:
-            return secondTimeOut
+            return mediaDuarion % 60 + 1
+            
         default:
             return 0
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-        return pickerView.frame.size.width/3
+        return pickerView.frame.size.width/2
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch component {
         case 0:
-            return "\(row) Minute"
+            return "\(row) мин."
         case 1:
-            return "\(row) Second"
+            return "\(row) сек."
         default:
             return ""
         }
@@ -60,28 +67,11 @@ extension AddSubViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch component {
         case 0:
-            minuteTimeOut = row
+            minutes = row
         case 1:
-            secondTimeOut = row
+            seconds = row
         default:
             break;
         }
     }
-    
-    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return CGFloat(25)
-    }
-    
-//    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-//        var pickerLabel: UILabel? = (view as? UILabel)
-//        if pickerLabel == nil {
-//            pickerLabel = UILabel()
-//            pickerLabel?.font = UIFont(name: "System", size: 9)
-//            pickerLabel?.textAlignment = .center
-//        }
-////        pickerLabel?.text = secondTimeOut
-//        pickerLabel?.textColor = UIColor.blue
-//        return pickerLabel!
-//    }
-    
 }
