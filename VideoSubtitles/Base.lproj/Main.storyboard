@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="r34-9G-xt8">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sTq-Hy-igl">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
@@ -96,13 +96,15 @@
                                             <constraint firstAttribute="width" constant="414" id="hTP-RI-Ir3"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MaU-dk-ueo">
-                                        <rect key="frame" x="177" y="148" width="60" height="60"/>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MaU-dk-ueo">
+                                        <rect key="frame" x="0.0" y="21" width="414" height="316"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="60" id="6ic-I8-7Vq"/>
-                                            <constraint firstAttribute="height" constant="60" id="D7R-dp-wTa"/>
+                                            <constraint firstAttribute="width" constant="414" id="6ic-I8-7Vq"/>
+                                            <constraint firstAttribute="height" constant="316" id="D7R-dp-wTa"/>
                                         </constraints>
-                                        <state key="normal" title="Button" image="play-button"/>
+                                        <inset key="imageEdgeInsets" minX="170" minY="120" maxX="170" maxY="120"/>
+                                        <state key="normal" image="play-button"/>
                                         <connections>
                                             <action selector="playOrPauseAction:" destination="1DK-EZ-XkI" eventType="touchUpInside" id="fVq-i2-vPp"/>
                                         </connections>
@@ -110,7 +112,7 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstItem="MaU-dk-ueo" firstAttribute="centerY" secondItem="p3X-Cj-oSC" secondAttribute="centerY" constant="35" id="IMv-Y8-MjO"/>
+                                    <constraint firstItem="MaU-dk-ueo" firstAttribute="centerY" secondItem="p3X-Cj-oSC" secondAttribute="centerY" constant="36" id="IMv-Y8-MjO"/>
                                     <constraint firstItem="Jsr-CE-Fie" firstAttribute="top" secondItem="p3X-Cj-oSC" secondAttribute="top" constant="19" id="Kia-ss-sYs"/>
                                     <constraint firstItem="MaU-dk-ueo" firstAttribute="centerX" secondItem="p3X-Cj-oSC" secondAttribute="centerX" id="R87-x9-apz"/>
                                     <constraint firstItem="Jsr-CE-Fie" firstAttribute="leading" secondItem="p3X-Cj-oSC" secondAttribute="leading" id="gFv-cE-82Z"/>
@@ -143,7 +145,7 @@
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Tjp-43-xer" customClass="CustomSlider" customModule="VideoSubtitles" customModuleProvider="target">
                                 <rect key="frame" x="30" y="486" width="353" height="31"/>
                                 <color key="tintColor" red="0.89399594069999999" green="0.89402705429999996" blue="0.90217381720000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="thumbTintColor" red="0.99432116749999999" green="0.74155503509999998" blue="0.17965799569999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="thumbTintColor" red="0.99607843137254903" green="0.74117647058823533" blue="0.1803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="trackWidth">
                                         <real key="value" value="50"/>
@@ -404,6 +406,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mjT-7u-8Dx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="6144.9275362318849" y="405.80357142857139"/>
+        </scene>
+        <!--My Slider-->
+        <scene sceneID="yaM-kB-4pt">
+            <objects>
+                <viewController id="sTq-Hy-igl" customClass="MySlider" customModule="VideoSubtitles" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OE7-sw-d2T">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="IBZ-K3-LtB"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="S6V-ZB-xQt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7001" y="412"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="wf2-Ak-uHF">

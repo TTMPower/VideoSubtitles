@@ -20,7 +20,9 @@ class EditorViewController: UIViewController {
         present(addSubViewController, animated: true, completion: nil)
         print("Попытка передать \(mediaDurationOut)")
     }
+    
     //MARK: таймер исчезновения кнопки плей/пауза
+    
     func timers() {
         time?.invalidate()
         time = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(handleTap),userInfo: nil, repeats: false)

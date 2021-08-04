@@ -38,6 +38,7 @@ extension AddSubViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch component {
         case 0:
@@ -64,6 +65,7 @@ extension AddSubViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             return ""
         }
     }
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch component {
         case 0:
@@ -74,4 +76,5 @@ extension AddSubViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             break;
         }
     }
+    
 }

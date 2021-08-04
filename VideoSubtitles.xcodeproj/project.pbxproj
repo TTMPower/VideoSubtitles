@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A3CB97B26BA4ED300EC8A93 /* MySlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3CB97A26BA4ED300EC8A93 /* MySlider.swift */; };
+		3A3CB97E26BA4FFB00EC8A93 /* SliderControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3CB97D26BA4FFB00EC8A93 /* SliderControl.swift */; };
+		3A3CB98026BA501400EC8A93 /* SliderLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3CB97F26BA501400EC8A93 /* SliderLayer.swift */; };
 		3A4EF5DC26B941160084E308 /* AddSubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4EF5DB26B941160084E308 /* AddSubViewController.swift */; };
 		3A8579C226B3FFD600B89E6D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8579C126B3FFD600B89E6D /* AppDelegate.swift */; };
 		3A8579C426B3FFD600B89E6D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8579C326B3FFD600B89E6D /* SceneDelegate.swift */; };
@@ -19,6 +22,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A3CB97A26BA4ED300EC8A93 /* MySlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySlider.swift; sourceTree = "<group>"; };
+		3A3CB97D26BA4FFB00EC8A93 /* SliderControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderControl.swift; sourceTree = "<group>"; };
+		3A3CB97F26BA501400EC8A93 /* SliderLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderLayer.swift; sourceTree = "<group>"; };
 		3A4EF5DB26B941160084E308 /* AddSubViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSubViewController.swift; sourceTree = "<group>"; };
 		3A8579BE26B3FFD600B89E6D /* VideoSubtitles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoSubtitles.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A8579C126B3FFD600B89E6D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +49,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A3CB97C26BA4FD200EC8A93 /* Slider */ = {
+			isa = PBXGroup;
+			children = (
+				3A3CB97A26BA4ED300EC8A93 /* MySlider.swift */,
+				3A3CB97D26BA4FFB00EC8A93 /* SliderControl.swift */,
+				3A3CB97F26BA501400EC8A93 /* SliderLayer.swift */,
+			);
+			path = Slider;
+			sourceTree = "<group>";
+		};
 		3A8579B526B3FFD600B89E6D = {
 			isa = PBXGroup;
 			children = (
@@ -65,6 +81,7 @@
 				3A8579C126B3FFD600B89E6D /* AppDelegate.swift */,
 				3A8579C326B3FFD600B89E6D /* SceneDelegate.swift */,
 				3A8579C726B3FFD600B89E6D /* Main.storyboard */,
+				3A3CB97C26BA4FD200EC8A93 /* Slider */,
 				3A4EF5DB26B941160084E308 /* AddSubViewController.swift */,
 				3A8579E326B7DA1E00B89E6D /* PickerViewController.swift */,
 				3AFC46BD26B7F3B50077854B /* EditorViewController.swift */,
@@ -148,6 +165,9 @@
 			files = (
 				3A8579C226B3FFD600B89E6D /* AppDelegate.swift in Sources */,
 				3A4EF5DC26B941160084E308 /* AddSubViewController.swift in Sources */,
+				3A3CB97E26BA4FFB00EC8A93 /* SliderControl.swift in Sources */,
+				3A3CB97B26BA4ED300EC8A93 /* MySlider.swift in Sources */,
+				3A3CB98026BA501400EC8A93 /* SliderLayer.swift in Sources */,
 				3A8579E426B7DA1E00B89E6D /* PickerViewController.swift in Sources */,
 				3AFC46C226B916A90077854B /* MyCustomSlider.swift in Sources */,
 				3A8579C426B3FFD600B89E6D /* SceneDelegate.swift in Sources */,
