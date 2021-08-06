@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddSubViewController: UIViewController {
+class AddSubViewController: UIViewController, UITextViewDelegate {
     
     var minutes:Int = 0
     var seconds:Int = 0
@@ -16,7 +16,18 @@ class AddSubViewController: UIViewController {
     var minuteTimeOut = Int()
     var secondTimeOut = Int()
     var mediaDuarion = Int()
+    var newSubtitle = String()
+    var currentTimeInSeconds = Int()
     
+    @IBAction func addNewSubtitleAction(_ sender: Any) {
+        newSubtitle = textViewLabel.text
+        if currentTimeInSeconds + 1 > (seconds + (minutes * 60)) {
+            print("TEST ALERT: Время конца субтитра должно быть больше времени начала субтитра")
+        } else {
+        print(newSubtitle)
+        dismiss(animated: true)
+        }
+    }
     @IBOutlet weak var endTimePicker: UIPickerView!
     @IBOutlet weak var startAtOutlet: UILabel!
     @IBOutlet weak var textViewLabel: UITextView!
@@ -24,12 +35,28 @@ class AddSubViewController: UIViewController {
         dismiss(animated: true)
     }
     
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textViewLabel.textColor == UIColor.lightGray {
+            textViewLabel.text = nil
+            textViewLabel.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textViewLabel.text.isEmpty {
+            textViewLabel.textColor = UIColor.white
+        }
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         endTimePicker.delegate = self
+        textViewLabel.delegate = self
+        textViewLabel.text = "Введите субтитр..."
+        textViewLabel.textColor = UIColor.lightGray
         startAtOutlet.text = currentTime
-        print("Попытка получить секунды \(secondTimeOut)")
-        print("Попытка получить минуты \(minuteTimeOut)")
     }
 }
 

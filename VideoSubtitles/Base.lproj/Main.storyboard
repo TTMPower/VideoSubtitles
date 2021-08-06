@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sTq-Hy-igl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="r34-9G-xt8">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
@@ -119,7 +119,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2js-lt-A1e">
-                                <rect key="frame" x="6" y="528" width="40" height="12"/>
+                                <rect key="frame" x="6" y="541" width="40" height="12"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="Q8H-4R-qMe"/>
                                 </constraints>
@@ -128,7 +128,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YdD-cD-7nf">
-                                <rect key="frame" x="380.5" y="527.5" width="26.5" height="12"/>
+                                <rect key="frame" x="380.5" y="541" width="26.5" height="12"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -142,19 +142,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Tjp-43-xer" customClass="CustomSlider" customModule="VideoSubtitles" customModuleProvider="target">
-                                <rect key="frame" x="30" y="486" width="353" height="31"/>
-                                <color key="tintColor" red="0.89399594069999999" green="0.89402705429999996" blue="0.90217381720000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="thumbTintColor" red="0.99607843137254903" green="0.74117647058823533" blue="0.1803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="trackWidth">
-                                        <real key="value" value="50"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="sliderValueChange:" destination="1DK-EZ-XkI" eventType="valueChanged" id="sZz-ar-FRg"/>
-                                </connections>
-                            </slider>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="68T-9K-5n4">
                                 <rect key="frame" x="307" y="762" width="100" height="100"/>
                                 <constraints>
@@ -174,19 +161,16 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="p3X-Cj-oSC" secondAttribute="trailing" id="4QL-JH-Cab"/>
                             <constraint firstItem="F7v-Da-mJr" firstAttribute="centerX" secondItem="iXA-D0-yK3" secondAttribute="centerX" id="4tk-Ty-f3j"/>
-                            <constraint firstItem="YdD-cD-7nf" firstAttribute="top" secondItem="Tjp-43-xer" secondAttribute="bottom" constant="11.5" id="8Mb-77-d8y"/>
-                            <constraint firstItem="2js-lt-A1e" firstAttribute="top" secondItem="Tjp-43-xer" secondAttribute="bottom" constant="12" id="ANa-FS-SnE"/>
                             <constraint firstItem="p3X-Cj-oSC" firstAttribute="top" secondItem="iXA-D0-yK3" secondAttribute="topMargin" constant="-13" id="AjD-gz-f6k"/>
-                            <constraint firstItem="Tjp-43-xer" firstAttribute="top" secondItem="F7v-Da-mJr" secondAttribute="bottom" constant="15.5" id="FGm-WD-4cz"/>
+                            <constraint firstItem="2js-lt-A1e" firstAttribute="top" secondItem="p3X-Cj-oSC" secondAttribute="bottom" constant="180" id="JY0-xZ-b3N"/>
                             <constraint firstItem="F7v-Da-mJr" firstAttribute="top" secondItem="p3X-Cj-oSC" secondAttribute="bottom" constant="89" id="LK9-kh-PaM"/>
                             <constraint firstAttribute="bottom" secondItem="p3X-Cj-oSC" secondAttribute="bottom" constant="535" id="Lc6-3G-PDy"/>
                             <constraint firstItem="p3X-Cj-oSC" firstAttribute="leading" secondItem="iXA-D0-yK3" secondAttribute="leading" id="P1p-Qc-77V"/>
                             <constraint firstItem="2js-lt-A1e" firstAttribute="leading" secondItem="9ms-tW-65m" secondAttribute="leading" constant="6" id="Wax-Vg-LcD"/>
                             <constraint firstItem="9ms-tW-65m" firstAttribute="trailing" secondItem="YdD-cD-7nf" secondAttribute="trailing" constant="7" id="bJB-cn-VuC"/>
-                            <constraint firstItem="9ms-tW-65m" firstAttribute="trailing" secondItem="Tjp-43-xer" secondAttribute="trailing" constant="33" id="bdi-bd-KEF"/>
-                            <constraint firstItem="Tjp-43-xer" firstAttribute="leading" secondItem="9ms-tW-65m" secondAttribute="leading" constant="32" id="k8p-iz-QmI"/>
                             <constraint firstItem="9ms-tW-65m" firstAttribute="trailing" secondItem="68T-9K-5n4" secondAttribute="trailing" constant="7" id="kfZ-lH-MPr"/>
                             <constraint firstItem="68T-9K-5n4" firstAttribute="bottom" secondItem="9ms-tW-65m" secondAttribute="bottom" id="sdN-YH-ccs"/>
+                            <constraint firstItem="YdD-cD-7nf" firstAttribute="top" secondItem="p3X-Cj-oSC" secondAttribute="bottom" constant="180" id="ya2-ga-i07"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="KMD-T8-NAo"/>
@@ -194,7 +178,6 @@
                         <outlet property="endTimeLabel" destination="YdD-cD-7nf" id="qMH-Tu-9xc"/>
                         <outlet property="playOrPauseOutletButton" destination="MaU-dk-ueo" id="9OB-hq-GKD"/>
                         <outlet property="playerViewOutlet" destination="Jsr-CE-Fie" id="30x-EH-7SU"/>
-                        <outlet property="sliderTimeOutlet" destination="Tjp-43-xer" id="iST-cI-3v3"/>
                         <outlet property="timeLineLabel" destination="F7v-Da-mJr" id="eSP-yg-eoZ"/>
                     </connections>
                 </viewController>
@@ -345,6 +328,9 @@
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="addNewSubtitleAction:" destination="S8H-0O-khp" eventType="touchUpInside" id="QbS-CK-Po9"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -406,21 +392,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mjT-7u-8Dx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="6144.9275362318849" y="405.80357142857139"/>
-        </scene>
-        <!--My Slider-->
-        <scene sceneID="yaM-kB-4pt">
-            <objects>
-                <viewController id="sTq-Hy-igl" customClass="MySlider" customModule="VideoSubtitles" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="OE7-sw-d2T">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="IBZ-K3-LtB"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="S6V-ZB-xQt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="7001" y="412"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="wf2-Ak-uHF">

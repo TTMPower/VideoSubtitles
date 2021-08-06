@@ -11,6 +11,7 @@ class PickerViewController: UIViewController, UIImagePickerControllerDelegate, U
         picker.delegate = self
         picker.sourceType = .savedPhotosAlbum
         picker.mediaTypes = ["public.movie"]
+        picker.videoQuality = .typeHigh
         picker.allowsEditing = true
         present(picker, animated: true, completion: nil)
     }
