@@ -2,7 +2,6 @@ import UIKit
 import AVFoundation
 
 class EditorViewController: UIViewController {
-    let slider = SliderControl(frame: .zero)
     
     var getAdditions = Additions.share
     var getPlayer = MyPlayer.share
@@ -21,10 +20,8 @@ class EditorViewController: UIViewController {
     var indexColor = 0
     var randomColor = UIColor()
     
-    var sliderFrame = CGRect()
-    
     var arraySubtitles = [String]()
-   
+    
     var myButtons = UIButton()
     
     @IBOutlet weak var subtitlesOutlet: UILabel!
@@ -32,6 +29,7 @@ class EditorViewController: UIViewController {
     @IBOutlet weak var endTimeLabel: UILabel!
     @IBOutlet weak var playOrPauseOutletButton: UIButton!
     @IBOutlet weak var playerViewOutlet: UIView!
+    @IBOutlet weak var viewSlider: UIView!
     @IBOutlet weak var fontSubtitlesOutlet: UILabel!
     
     @IBAction func playOrPauseAction(_ sender: Any) {
@@ -40,8 +38,17 @@ class EditorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initializeSlider1()
-        getPlayer.setupVideoPlayer(label: endTimeLabel, playerOut: playerViewOutlet, slider: slider, subOutlet: subtitlesOutlet, timeLine: timeLineLabel, urlVideo: urlVideo!)
+        subtitlesOutlet.text = ""
+        let tap = UITapGestureRecognizer(target: self, action: #selector(toggle))
+        playerViewOutlet.addGestureRecognizer(tap)
+        playerViewOutlet.isUserInteractionEnabled = true
+        let newBackButton = UIBarButtonItem(title: "Сбросить", style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.backAction(sender:)))
+        self.navigationItem.leftBarButtonItem = newBackButton
+        
+        let fortmatedTime = getAdditions.formattedTime(minute: Int(getPlayer.outputValue), second: Int(getPlayer.outputValue))
+        timeLineLabel.text = String(fortmatedTime)
+        getPlayer.initializeSlider1(parentView: viewSlider, timeLineLabel: timeLineLabel)
+        getPlayer.setupVideoPlayer(label: endTimeLabel, playerOut: playerViewOutlet, subOutlet: subtitlesOutlet, timeLine: timeLineLabel, urlVideo: urlVideo!)
     }
     
     
@@ -53,18 +60,9 @@ class EditorViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        sliderInit()
+        getPlayer.sliderInit(playerViewOutlet: playerViewOutlet, parentView: viewSlider)
     }
     
-    func sliderInit() {
-        getPlayer.playerLayer.frame = playerViewOutlet.bounds
-        let margin: CGFloat = 20
-        let width = view.bounds.width - 2 * margin
-        let height: CGFloat = 60
-        slider.frame = CGRect(x: 20, y: getPlayer.playerLayer.frame.width + 65,
-                              width: width, height: height)
-        sliderFrame = slider.frame
-    }
     
     func addNewColor(controller: AddSubViewController) {
         indexColor += 1
@@ -84,23 +82,6 @@ class EditorViewController: UIViewController {
         present(addSubViewController, animated: true, completion: nil)
     }
     
-    
-    @objc func rangeSliderValueChanged(_ rangeSlider: SliderControl) {
-        getAdditions.onlyPause(player: getPlayer.player, button: playOrPauseOutletButton)
-        timers()
-        guard let duration = getPlayer.player?.currentItem?.duration else { return }
-        let value = Float64(slider.lowerValue) * CMTimeGetSeconds(duration)
-        let seekTime = CMTime(value: CMTimeValue(value), timescale: CMTimeScale(1))
-        getPlayer.player?.seek(to: seekTime )
-        
-        let fortmatedTime = getAdditions.formattedTime(minute: Int(value), second: Int(value))
-        timeLineLabel.text = String(fortmatedTime)
-    }
-    
-    
-    
-
-    
     @objc func backAction(sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: "Сбросить?", message: "При возврате на экран библиотеки все данные будут сброшены", preferredStyle: .actionSheet)
         let okAction = UIAlertAction(title: "Сбросить", style: .cancel) { [weak self] (result : UIAlertAction) -> Void in
@@ -118,23 +99,6 @@ class EditorViewController: UIViewController {
         timers()
     }
     
-    
-    func initializeSlider1(){
-        slider.addTarget(self, action: #selector(rangeSliderValueChanged(_:)), for: .valueChanged)
-        slider.backgroundColor = .lightGray
-        view.addSubview(slider)
-        subtitlesOutlet.text = ""
-        let tap = UITapGestureRecognizer(target: self, action: #selector(toggle))
-        playerViewOutlet.addGestureRecognizer(tap)
-        playerViewOutlet.isUserInteractionEnabled = true
-        let newBackButton = UIBarButtonItem(title: "Сбросить", style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.backAction(sender:)))
-        self.navigationItem.leftBarButtonItem = newBackButton
-        let slider1InitialValue:Float = Float(slider.lowerValue)
-        let slider1ValueInt:Int = Int(slider1InitialValue)
-        timeLineLabel.text = String(slider1ValueInt)
-        
-    }
-    
     func timers() {
         time?.invalidate()
         time = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(handleTap),userInfo: nil, repeats: false)
@@ -145,36 +109,41 @@ class EditorViewController: UIViewController {
     }
     
     func addButtonForView() {
-        slider.currentThumbPoint.x = slider.lowerValue
+        getPlayer.slider.currentThumbPoint.x = getPlayer.slider.lowerValue
         let value = CGFloat(Int(endTimeOutput) - (getPlayer.currentTimeSeconds - 1))
-        let wPerSec = (Int(view.bounds.width) - 2 * 30) / getPlayer.mediaDurationOut
-        let currentPoint = (Double(wPerSec) * getPlayer.values) + 25
-        let button = UIButton(frame: CGRect(x: CGFloat(currentPoint), y: slider.center.y - 25, width: (value) * CGFloat(wPerSec), height: slider.frame.height - 10))
+        let wPerSec = (Int(viewSlider.bounds.width) - 2 * 30) / getPlayer.mediaDurationOut
+        let xPerSec = (wPerSec * getPlayer.outputValue) * 2
+        let button = UIButton(frame: CGRect(x: CGFloat(xPerSec), y: viewSlider.center.y - 25, width: (value) * CGFloat(wPerSec), height: getPlayer.slider.frame.height - 10))
         button.tag += 1
         button.addTarget(self, action: #selector(tapped), for: .touchUpInside)
         button.layer.cornerRadius = 5
         button.backgroundColor = randomColor
         view.addSubview(button)
-        }
+    }
     
     @objc private func tapped() {
         guard let popVC = storyboard?.instantiateViewController(withIdentifier: "popVC") else { return }
         popVC.modalPresentationStyle = .overCurrentContext
         popVC.view.backgroundColor = .clear
-                let popOverVC = popVC.popoverPresentationController
-                popOverVC?.delegate = self
-                popOverVC?.sourceView = self.myButtons
-                self.present(popVC, animated: true)
-            }
-        }
+        let popOverVC = popVC.popoverPresentationController
+        popOverVC?.delegate = self
+        popOverVC?.sourceView = self.myButtons
+        self.present(popVC, animated: true)
+    }
     
+    func addSubtitles(text: String) {
+        subtitlesOutlet.text = text
+    }
+    
+}
+
 
 extension EditorViewController: UIPopoverPresentationControllerDelegate {
-
-       func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-           return .none
-       }
-   }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+}
 
 extension AVPlayer {
     var isPlaying: Bool {
@@ -190,19 +159,21 @@ extension EditorViewController: AddSubDelegate {
         startTimes = Double(startTime)
         randomColor = color
         addButtonForView()
-        let start = Int(startTime)
-        let end = Int(endTime)
-        let arrayRange: [Int] = Array(start...end)
+        let start = Double(startTime)
+        let end = Double(endTime)
+//        let arrayRange: [Int] = Array(start...end)
         var times = [NSValue]()
-        for el in arrayRange {
-            let cm = CMTime(seconds: Double(el), preferredTimescale: 1)
+        let doublesArray = Array(stride(from: start, to: end, by: 0.01))
+        print(doublesArray)
+        for el in doublesArray {
+            let cm = CMTime(seconds: Double(el), preferredTimescale: 100)
             times.append(NSValue(time: cm))
-            print(cm)
         }
-        let newTimeObserverToken = getPlayer.player.addBoundaryTimeObserver(forTimes: times, queue: DispatchQueue.main, using: {
-                    [weak self] in
-                    self?.subtitlesOutlet.text = sub
-            })
-        arrayTokens?.append(newTimeObserverToken)
+        timeObserverToken = getPlayer.player.addBoundaryTimeObserver(forTimes: times, queue: DispatchQueue.main, using: {
+            [weak self] in
+            self?.subtitlesOutlet.text = sub
+        })
+        arrayTokens?.append(timeObserverToken!)
+        print(times)
     }
-    }
+}

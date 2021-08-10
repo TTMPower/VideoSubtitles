@@ -39,7 +39,6 @@ class AddSubViewController: UIViewController, UITextViewDelegate {
             dismiss(animated: true)
             endDuration = seconds + (minutes * 60)
             delegate?.dataDelegate(sub: newSubtitle,startTime: getPlayer.currentTimeSeconds, endTime: endDuration, color: colorSubtitble)
-            print(endDuration)
             
         }
     }

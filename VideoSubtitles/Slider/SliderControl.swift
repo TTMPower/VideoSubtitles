@@ -62,6 +62,7 @@ extension SliderControl {
     }
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         let location = touch.location(in: self)
+        
         let currentPoint = location
         currentThumbPoint = currentPoint
         let percentage = currentPoint.x / bounds.width;
