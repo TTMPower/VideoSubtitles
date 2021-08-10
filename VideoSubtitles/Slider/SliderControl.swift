@@ -54,7 +54,6 @@ class SliderControl: UIControl {
 extension SliderControl {
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         previousLocation = touch.location(in: self)
-//        print("previousLocation: \(previousLocation)")
         if thumbImageView.frame.contains(previousLocation) {
             thumbImageView.isHighlighted = true
         }

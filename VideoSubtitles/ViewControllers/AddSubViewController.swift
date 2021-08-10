@@ -19,26 +19,26 @@ class AddSubViewController: UIViewController, UITextViewDelegate {
     var minutes:Int = 0
     var seconds:Int = 0
     
+    var getPlayer = MyPlayer.share
+    
     @IBOutlet weak var errorOutlet: UILabel!
     var colorSubtitble = UIColor()
     var currentTime = String()
     var minuteTimeOut = Int()
     var secondTimeOut = Int()
-    var mediaDuarion = Int()
     var newSubtitle = String()
-    var currentTimeInSeconds = Int()
     
     @IBOutlet weak var colorSubtitles: UIView!
     @IBAction func addNewSubtitleAction(_ sender: Any) {
         newSubtitle = textViewLabel.text
-        if currentTimeInSeconds  > (seconds + (minutes * 60)) {
+        if getPlayer.currentTimeSeconds  > (seconds + (minutes * 60)) {
             errorOutlet.isHidden = false
         } else {
             var endDuration = 0
             errorOutlet.isHidden = true
             dismiss(animated: true)
             endDuration = seconds + (minutes * 60)
-            delegate?.dataDelegate(sub: newSubtitle,startTime: currentTimeInSeconds, endTime: endDuration, color: colorSubtitble)
+            delegate?.dataDelegate(sub: newSubtitle,startTime: getPlayer.currentTimeSeconds, endTime: endDuration, color: colorSubtitble)
             print(endDuration)
             
         }
@@ -97,9 +97,9 @@ extension AddSubViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch component {
         case 0:
-            return mediaDuarion / 60 + 1
+            return getPlayer.mediaDurationOut / 60 + 1
         case 1:
-            return mediaDuarion % 60 + 1
+            return getPlayer.mediaDurationOut % 60 + 1
         default:
             return 99
         }

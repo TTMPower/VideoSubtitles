@@ -9,7 +9,6 @@ import Foundation
 import AVFoundation
 import UIKit
 
-
 class Additions {
     static var share = Additions()
     
