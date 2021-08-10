@@ -39,30 +39,6 @@ class EditorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        slider.addTarget(self, action: #selector(rangeSliderValueChanged(_:)), for: .valueChanged)
-        slider.backgroundColor = .lightGray
-        view.addSubview(slider)
-        subtitlesOutlet.text = ""
-        let tap = UITapGestureRecognizer(target: self, action: #selector(toggle))
-        playerViewOutlet.addGestureRecognizer(tap)
-        playerViewOutlet.isUserInteractionEnabled = true
-        let newBackButton = UIBarButtonItem(title: "Сбросить", style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.backAction(sender:)))
-        self.navigationItem.leftBarButtonItem = newBackButton
-        
-        
-        //MARK: время видео
-        let asset = AVURLAsset(url: urlVideo!)
-        let totalSeconds = Int(CMTimeGetSeconds(asset.duration))
-        let mediaDuration = getAdditions.formattedTime(minute: totalSeconds, second: totalSeconds)
-        endTimeLabel.text = mediaDuration
-        mediaDurationOut = totalSeconds
-        
-        if let unwrapURL = urlVideo {
-            player = AVPlayer(url: unwrapURL)
-            playerLayer = AVPlayerLayer(player: player)
-            playerLayer.videoGravity = .resizeAspect
-            playerViewOutlet.layer.addSublayer(playerLayer)
-        }
         initializeSlider1()
         setupVideoPlayer()
     }
@@ -76,9 +52,11 @@ class EditorViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        sliderInit()
+    }
+    
+    func sliderInit() {
         playerLayer.frame = playerViewOutlet.bounds
-        
-        
         let margin: CGFloat = 20
         let width = view.bounds.width - 2 * margin
         let height: CGFloat = 60
@@ -87,9 +65,6 @@ class EditorViewController: UIViewController {
         slider.frame = CGRect(x: 20, y: playerLayer.frame.width + 65,
                               width: width, height: height)
         sliderFrame = slider.frame
-        
-        
-        
     }
     
     func addNewColor(controller: AddSubViewController) {
@@ -128,6 +103,19 @@ class EditorViewController: UIViewController {
     
     
     func setupVideoPlayer() {
+        //MARK: время видео
+        let asset = AVURLAsset(url: urlVideo!)
+        let totalSeconds = Int(CMTimeGetSeconds(asset.duration))
+        let mediaDuration = getAdditions.formattedTime(minute: totalSeconds, second: totalSeconds)
+        endTimeLabel.text = mediaDuration
+        mediaDurationOut = totalSeconds
+        
+        if let unwrapURL = urlVideo {
+            player = AVPlayer(url: unwrapURL)
+            playerLayer = AVPlayerLayer(player: player)
+            playerLayer.videoGravity = .resizeAspect
+            playerViewOutlet.layer.addSublayer(playerLayer)
+        }
         let interval = CMTime(seconds: 1, preferredTimescale: 2)
         timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { [weak self] time in
             
@@ -155,10 +143,6 @@ class EditorViewController: UIViewController {
         timeLineLabel.text = String(timeLineCurrentTime)
     }
     
-    //MARK: нажатие на вью видеоплеера для активации паузы
-    
-    
-    
     @objc func backAction(sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: "Сбросить?", message: "При возврате на экран библиотеки все данные будут сброшены", preferredStyle: .actionSheet)
         let okAction = UIAlertAction(title: "Сбросить", style: .cancel) { [weak self] (result : UIAlertAction) -> Void in
@@ -178,7 +162,15 @@ class EditorViewController: UIViewController {
     
     
     func initializeSlider1(){
-        
+        slider.addTarget(self, action: #selector(rangeSliderValueChanged(_:)), for: .valueChanged)
+        slider.backgroundColor = .lightGray
+        view.addSubview(slider)
+        subtitlesOutlet.text = ""
+        let tap = UITapGestureRecognizer(target: self, action: #selector(toggle))
+        playerViewOutlet.addGestureRecognizer(tap)
+        playerViewOutlet.isUserInteractionEnabled = true
+        let newBackButton = UIBarButtonItem(title: "Сбросить", style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.backAction(sender:)))
+        self.navigationItem.leftBarButtonItem = newBackButton
         let slider1InitialValue:Float = Float(slider.lowerValue)
         let slider1ValueInt:Int = Int(slider1InitialValue)
         timeLineLabel.text = String(slider1ValueInt)
