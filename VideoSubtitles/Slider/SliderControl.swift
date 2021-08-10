@@ -9,6 +9,7 @@ import UIKit
 
 class SliderControl: UIControl {
 
+    
     private var previousLocation = CGPoint()
     
     override var frame: CGRect {
@@ -20,6 +21,8 @@ class SliderControl: UIControl {
     var minimumValue: CGFloat  =  0
     var maximumValue: CGFloat  =  1
     var lowerValue: CGFloat  =  0.0
+    var currentThumbPoint = CGPoint()
+    
     
     var thumbImage = UIImage(named: "slider9")
     private let thumbImageView = UIImageView()
@@ -60,11 +63,10 @@ extension SliderControl {
     }
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         let location = touch.location(in: self)
-        
         let currentPoint = location
+        currentThumbPoint = currentPoint
         let percentage = currentPoint.x / bounds.width;
         let delta = CGFloat(percentage) * (maximumValue - minimumValue)
-        
         if thumbImageView.isHighlighted {
             let value = minimumValue + delta
             lowerValue = boundValue(value, toLowerValue: minimumValue, toMaxValue: maximumValue)

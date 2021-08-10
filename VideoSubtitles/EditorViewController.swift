@@ -3,36 +3,38 @@ import AVFoundation
 
 class EditorViewController: UIViewController {
     let slider = SliderControl(frame: .zero)
+    
+    var getAdditions = Additions.share
+    
     var time: Timer?
     var timeObserver: Any?
-    var minuteTimeOut = Int()
-    var secondTimeOut = Int()
-    var timeObserverToken: Any?
+    var arrayTokens: [Any]?
+    var timeObserverToken: Any!
     var mediaDurationOut = Int()
     var currentTimeSeconds = Int()
-    
+    var endTimeOutput = Double()
     var urlVideo: URL?
     var player: AVPlayer!
     var playerLayer: AVPlayerLayer!
+    var randomColor = UIColor()
+    var arrayColor = [UIColor.black, UIColor.orange, UIColor.blue, UIColor.green, UIColor.yellow,UIColor.red, UIColor.systemBlue, UIColor.purple]
+    var indexColor = 0
+    var sliderFrame = CGRect()
+    var arraySubtitles = [String]()
+    var values = Double()
+    var startTimes = Double()
+    var myButtons = UIButton()
     
+    @IBOutlet weak var subtitlesOutlet: UILabel!
     @IBOutlet weak var timeLineLabel: UILabel!
     
     
     @IBOutlet weak var endTimeLabel: UILabel!
     @IBOutlet weak var playOrPauseOutletButton: UIButton!
     @IBOutlet weak var playerViewOutlet: UIView!
+    @IBOutlet weak var fontSubtitlesOutlet: UILabel!
     @IBAction func playOrPauseAction(_ sender: Any) {
-        guard let player = player else { return }
-        if !player.isPlaying {
-            playOrPauseOutletButton.setImage(UIImage(named: "pause"), for: .normal)
-            player.play()
-            timers()
-            
-        } else {
-            playOrPauseOutletButton.setImage(UIImage(named: "play-button"), for: .normal)
-            player.pause()
-            timers()
-        }
+        getAdditions.playOrpayse(player: player, button: playOrPauseOutletButton, timer: timers())
     }
     
     override func viewDidLoad() {
@@ -40,6 +42,7 @@ class EditorViewController: UIViewController {
         slider.addTarget(self, action: #selector(rangeSliderValueChanged(_:)), for: .valueChanged)
         slider.backgroundColor = .lightGray
         view.addSubview(slider)
+        subtitlesOutlet.text = ""
         let tap = UITapGestureRecognizer(target: self, action: #selector(toggle))
         playerViewOutlet.addGestureRecognizer(tap)
         playerViewOutlet.isUserInteractionEnabled = true
@@ -50,7 +53,7 @@ class EditorViewController: UIViewController {
         //MARK: время видео
         let asset = AVURLAsset(url: urlVideo!)
         let totalSeconds = Int(CMTimeGetSeconds(asset.duration))
-        let mediaDuration = formattedTime(minute: totalSeconds, second: totalSeconds)
+        let mediaDuration = getAdditions.formattedTime(minute: totalSeconds, second: totalSeconds)
         endTimeLabel.text = mediaDuration
         mediaDurationOut = totalSeconds
         
@@ -79,76 +82,81 @@ class EditorViewController: UIViewController {
         let margin: CGFloat = 20
         let width = view.bounds.width - 2 * margin
         let height: CGFloat = 60
+        //        print(width)
         
         slider.frame = CGRect(x: 20, y: playerLayer.frame.width + 65,
                               width: width, height: height)
-        //        slider.center = view.center
+        sliderFrame = slider.frame
+        
         
         
     }
-   
+    
+    func addNewColor(controller: AddSubViewController) {
+        indexColor += 1
+        controller.colorSubtitble = arrayColor[indexColor % arrayColor.count]
+    }
+    
     @IBAction func transferTime(_ sender: Any) {
+        getAdditions.onlyPause(player: player, button: playOrPauseOutletButton)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let addSubViewController = storyboard.instantiateViewController(identifier: "addSubID") as? AddSubViewController else { return }
         addSubViewController.currentTime = timeLineLabel.text ?? "Ошибка"
         addSubViewController.modalPresentationStyle = .overCurrentContext
         addSubViewController.view.backgroundColor = .clear
+        addNewColor(controller: addSubViewController)
         addSubViewController.mediaDuarion = mediaDurationOut
         addSubViewController.currentTimeInSeconds = currentTimeSeconds
+        addSubViewController.delegate = self
+        
         present(addSubViewController, animated: true, completion: nil)
     }
     
     
     @objc func rangeSliderValueChanged(_ rangeSlider: SliderControl) {
-        player?.pause()
-        playOrPauseOutletButton.setImage(UIImage(named: "play-button"), for: .normal)
+        getAdditions.onlyPause(player: player, button: playOrPauseOutletButton)
         timers()
         guard let duration = player?.currentItem?.duration else { return }
         let value = Float64(slider.lowerValue) * CMTimeGetSeconds(duration)
-//        actuallySeekToTime()
         let seekTime = CMTime(value: CMTimeValue(value), timescale: CMTimeScale(1))
         player?.seek(to: seekTime )
-
-        let fortmatedTime = formattedTime(minute: Int(value), second: Int(value))
+        
+        let fortmatedTime = getAdditions.formattedTime(minute: Int(value), second: Int(value))
         timeLineLabel.text = String(fortmatedTime)
     }
-
-
-    func timers() {
-        time?.invalidate()
-        time = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(handleTap),userInfo: nil, repeats: false)
-    }
+    
+    
     
     func setupVideoPlayer() {
         let interval = CMTime(seconds: 1, preferredTimescale: 2)
         timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { [weak self] time in
-        
+            
             self?.updateVideoPlayerSlider(time: time)
         })
+        
     }
     func updateVideoPlayerSlider(time: CMTime) {
         guard let currentTime = player?.currentTime() else { return }
-            let currentTimeInSeconds = CMTimeGetSeconds(currentTime)
+        let currentTimeInSeconds = CMTimeGetSeconds(currentTime)
         slider.lowerValue = CGFloat(currentTimeInSeconds)
-            if let currentItem = player?.currentItem {
-                let duration = currentItem.duration
-                if (CMTIME_IS_INVALID(duration)) {
-                    return;
-                }
-                let currentTime = currentItem.currentTime()
-                slider.lowerValue =
-                    CGFloat(CMTimeGetSeconds(currentTime) / CMTimeGetSeconds(duration))
+        if let currentItem = player?.currentItem {
+            let duration = currentItem.duration
+            if (CMTIME_IS_INVALID(duration)) {
+                return;
             }
-        let timeLineCurrentTime = formattedTime(minute: Int(currentTimeInSeconds), second: Int(currentTimeInSeconds))
-        currentTimeSeconds = Int(currentTimeInSeconds)
+            let currentTime = currentItem.currentTime()
+            slider.lowerValue =
+                CGFloat(CMTimeGetSeconds(currentTime) / CMTimeGetSeconds(duration))
+            values = currentTimeInSeconds
+        }
+        subtitlesOutlet.text = ""
+        let timeLineCurrentTime = getAdditions.formattedTime(minute: Int(currentTimeInSeconds), second: Int(currentTimeInSeconds))
+        currentTimeSeconds = Int(currentTimeInSeconds) + 1
         timeLineLabel.text = String(timeLineCurrentTime)
     }
     
     //MARK: нажатие на вью видеоплеера для активации паузы
     
-    @objc func handleTap() {
-        playOrPauseOutletButton.isHidden = true
-    }
     
     
     @objc func backAction(sender: UIBarButtonItem) {
@@ -162,15 +170,6 @@ class EditorViewController: UIViewController {
         self.present(alertController, animated: true)
     }
     
-    func formattedTime(minute: Int, second: Int) -> String {
-        let formattedMinute = minute / 60
-        let formattedSecond = second % 60
-        
-        secondTimeOut = formattedSecond
-        minuteTimeOut = formattedMinute
-        
-        return String(format: "%02i:%02i", formattedMinute, formattedSecond)
-    }
     
     @objc func toggle() {
         playOrPauseOutletButton.isHidden = !playOrPauseOutletButton.isHidden
@@ -185,11 +184,84 @@ class EditorViewController: UIViewController {
         timeLineLabel.text = String(slider1ValueInt)
         
     }
-}
     
+    func timers() {
+        time?.invalidate()
+        time = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(handleTap),userInfo: nil, repeats: false)
+    }
+    
+    @objc func handleTap() {
+        playOrPauseOutletButton.isHidden = true
+    }
+    
+    func makeRangeArray() -> CMTimeRange {
+        let cmTimeStarts = CMTime(seconds: startTimes, preferredTimescale: 100)
+        let cmTimeEnds = CMTime(seconds: endTimeOutput, preferredTimescale: 100)
+        print(cmTimeStarts)
+        print(cmTimeEnds)
+        let cmTimeRanges = CMTimeRange(start: cmTimeStarts, end: cmTimeEnds)
+        return cmTimeRanges
+    }
+    
+    func addButtonForView() {
+        slider.currentThumbPoint.x = slider.lowerValue
+        let value = CGFloat(Int(endTimeOutput) - (currentTimeSeconds - 1))
+        let wPerSec = (Int(view.bounds.width) - 2 * 30) / mediaDurationOut
+        let currentPoint = (Double(wPerSec) * values) + 25
+        let button = UIButton(frame: CGRect(x: CGFloat(currentPoint), y: slider.center.y - 25, width: (value) * CGFloat(wPerSec), height: slider.frame.height - 10))
+        button.tag += 1
+        button.addTarget(self, action: #selector(tapped), for: .touchUpInside)
+        button.layer.cornerRadius = 5
+        button.backgroundColor = randomColor
+        view.addSubview(button)
+        }
+    
+    @objc private func tapped() {
+        guard let popVC = storyboard?.instantiateViewController(withIdentifier: "popVC") else { return }
+        popVC.modalPresentationStyle = .overCurrentContext
+        popVC.view.backgroundColor = .clear
+                let popOverVC = popVC.popoverPresentationController
+                popOverVC?.delegate = self
+                popOverVC?.sourceView = self.myButtons
+                self.present(popVC, animated: true)
+            }
+        }
+    
+
+extension EditorViewController: UIPopoverPresentationControllerDelegate {
+
+       func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+           return .none
+       }
+   }
 
 extension AVPlayer {
     var isPlaying: Bool {
         return rate != 0 && error == nil
     }
 }
+
+extension EditorViewController: AddSubDelegate {
+    func dataDelegate(sub: String, startTime: Int, endTime: Int, color: UIColor) {
+        fontSubtitlesOutlet.isHidden = false
+        arraySubtitles.append(sub)
+        endTimeOutput = Double(endTime)
+        startTimes = Double(startTime)
+        randomColor = color
+        addButtonForView()
+        let start = Int(startTime)
+        let end = Int(endTime)
+        let arrayRange: [Int] = Array(start...end)
+        var times = [NSValue]()
+        for el in arrayRange {
+            let cm = CMTime(seconds: Double(el), preferredTimescale: 1)
+            times.append(NSValue(time: cm))
+            print(cm)
+        }
+            let newTimeObserverToken = player.addBoundaryTimeObserver(forTimes: times, queue: DispatchQueue.main, using: {
+                    [weak self] in
+                    self?.subtitlesOutlet.text = sub
+            })
+        arrayTokens?.append(newTimeObserverToken)
+    }
+    }

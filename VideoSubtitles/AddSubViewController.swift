@@ -6,12 +6,21 @@
 //
 
 import UIKit
+import AVFoundation
+
+protocol AddSubDelegate {
+    func dataDelegate(sub: String,startTime: Int, endTime: Int, color: UIColor)
+}
 
 class AddSubViewController: UIViewController, UITextViewDelegate {
+    
+    var delegate: AddSubDelegate?
     
     var minutes:Int = 0
     var seconds:Int = 0
     
+    @IBOutlet weak var errorOutlet: UILabel!
+    var colorSubtitble = UIColor()
     var currentTime = String()
     var minuteTimeOut = Int()
     var secondTimeOut = Int()
@@ -19,13 +28,19 @@ class AddSubViewController: UIViewController, UITextViewDelegate {
     var newSubtitle = String()
     var currentTimeInSeconds = Int()
     
+    @IBOutlet weak var colorSubtitles: UIView!
     @IBAction func addNewSubtitleAction(_ sender: Any) {
         newSubtitle = textViewLabel.text
-        if currentTimeInSeconds + 1 > (seconds + (minutes * 60)) {
-            print("TEST ALERT: Время конца субтитра должно быть больше времени начала субтитра")
+        if currentTimeInSeconds  > (seconds + (minutes * 60)) {
+            errorOutlet.isHidden = false
         } else {
-        print(newSubtitle)
-        dismiss(animated: true)
+            var endDuration = 0
+            errorOutlet.isHidden = true
+            dismiss(animated: true)
+            endDuration = seconds + (minutes * 60)
+            delegate?.dataDelegate(sub: newSubtitle,startTime: currentTimeInSeconds, endTime: endDuration, color: colorSubtitble)
+            print(endDuration)
+            
         }
     }
     @IBOutlet weak var endTimePicker: UIPickerView!
@@ -48,16 +63,29 @@ class AddSubViewController: UIViewController, UITextViewDelegate {
         }
     }
     
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    func startView() {
         endTimePicker.delegate = self
         textViewLabel.delegate = self
         textViewLabel.text = "Введите субтитр..."
         textViewLabel.textColor = UIColor.lightGray
         startAtOutlet.text = currentTime
+        colorSubtitles.backgroundColor = UIColor.clear
+        colorSubtitles.backgroundColor = colorSubtitble
     }
+    
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        startView()
+    }
+    
+    
 }
 
 extension AddSubViewController: UIPickerViewDelegate, UIPickerViewDataSource {
@@ -69,12 +97,11 @@ extension AddSubViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch component {
         case 0:
-            return mediaDuarion / 60
+            return mediaDuarion / 60 + 1
         case 1:
             return mediaDuarion % 60 + 1
-            
         default:
-            return 0
+            return 99
         }
     }
     
