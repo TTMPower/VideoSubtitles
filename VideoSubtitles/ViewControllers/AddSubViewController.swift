@@ -31,15 +31,18 @@ class AddSubViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var colorSubtitles: UIView!
     @IBAction func addNewSubtitleAction(_ sender: Any) {
         newSubtitle = textViewLabel.text
-        if getPlayer.currentTimeSeconds  > (seconds + (minutes * 60)) {
+        if minutes * 60 + seconds > getPlayer.mediaDurationOut {
+            errorOutlet.text = "Окончание субтитра больше его продолжительности"
+            errorOutlet.isHidden = false
+        } else if getPlayer.outputValue  > Double(seconds + (minutes * 60)) {
+            errorOutlet.text = "Ошибка! Время конца субтитра меньше его начала."
             errorOutlet.isHidden = false
         } else {
             var endDuration = 0
             errorOutlet.isHidden = true
             dismiss(animated: true)
             endDuration = seconds + (minutes * 60)
-            delegate?.dataDelegate(sub: newSubtitle,startTime: getPlayer.currentTimeSeconds, endTime: endDuration, color: colorSubtitble)
-            
+            delegate?.dataDelegate(sub: newSubtitle,startTime: Int(getPlayer.outputValue), endTime: endDuration, color: colorSubtitble)
         }
     }
     @IBOutlet weak var endTimePicker: UIPickerView!
@@ -72,13 +75,6 @@ class AddSubViewController: UIViewController, UITextViewDelegate {
         colorSubtitles.backgroundColor = colorSubtitble
     }
     
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         startView()
@@ -98,14 +94,18 @@ extension AddSubViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         case 0:
             return getPlayer.mediaDurationOut / 60 + 1
         case 1:
-            return getPlayer.mediaDurationOut % 60 + 1
+            if getPlayer.mediaDurationOut < 60 {
+                return getPlayer.mediaDurationOut % 60 + 1
+            } else {
+                return 60
+            }
         default:
             return 99
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-        return pickerView.frame.size.width/2
+        return pickerView.frame.size.width / 2
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
