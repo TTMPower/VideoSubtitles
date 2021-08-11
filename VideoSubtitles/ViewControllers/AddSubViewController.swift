@@ -30,19 +30,24 @@ class AddSubViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var colorSubtitles: UIView!
     @IBAction func addNewSubtitleAction(_ sender: Any) {
-        newSubtitle = textViewLabel.text
-        if minutes * 60 + seconds > getPlayer.mediaDurationOut {
-            errorOutlet.text = "Окончание субтитра больше его продолжительности"
+        if textViewLabel.text.isEmpty || textViewLabel.text == "Введите субтитр..." {
             errorOutlet.isHidden = false
-        } else if getPlayer.outputValue  > Double(seconds + (minutes * 60)) {
-            errorOutlet.text = "Ошибка! Время конца субтитра меньше его начала."
-            errorOutlet.isHidden = false
+            errorOutlet.text = "Поле для ввода пусто."
         } else {
-            var endDuration = 0
-            errorOutlet.isHidden = true
-            dismiss(animated: true)
-            endDuration = seconds + (minutes * 60)
-            delegate?.dataDelegate(sub: newSubtitle,startTime: Int(getPlayer.outputValue), endTime: endDuration, color: colorSubtitble)
+            newSubtitle = textViewLabel.text
+            if minutes * 60 + seconds > getPlayer.mediaDurationOut {
+                errorOutlet.text = "Окончание субтитра больше его продолжительности"
+                errorOutlet.isHidden = false
+            } else if getPlayer.outputValue  > Double(seconds + (minutes * 60)) {
+                errorOutlet.text = "Ошибка! Время конца субтитра меньше его начала."
+                errorOutlet.isHidden = false
+            } else {
+                var endDuration = 0
+                errorOutlet.isHidden = true
+                dismiss(animated: true)
+                endDuration = seconds + (minutes * 60)
+                delegate?.dataDelegate(sub: newSubtitle,startTime: Int(getPlayer.outputValue), endTime: endDuration, color: colorSubtitble)
+            }
         }
     }
     @IBOutlet weak var endTimePicker: UIPickerView!

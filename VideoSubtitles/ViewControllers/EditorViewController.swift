@@ -169,7 +169,7 @@ extension EditorViewController: AddSubDelegate {
         //MARK: Create array of range from start subtitle to end with gap by 0.01
         let doublesArray = Array(stride(from: start, to: end, by: 0.01))
         for el in doublesArray {
-            let cm = CMTime(seconds: Double(el), preferredTimescale: 1000)
+            let cm = CMTime(seconds: Double(el), preferredTimescale: CMTimeScale(NSEC_PER_USEC))
             times.append(NSValue(time: cm))
         }
         timeObserverToken = getPlayer.player.addBoundaryTimeObserver(forTimes: times, queue: DispatchQueue.main, using: {
