@@ -582,7 +582,7 @@
                     </view>
                     <connections>
                         <outlet property="colorSubtitles" destination="zpD-7W-yk3" id="P8H-x6-Bvc"/>
-                        <outlet property="textViewSubtitles" destination="WIu-Dz-qj6" id="dhk-Ji-DWf"/>
+                        <outlet property="textViewSubtitles" destination="WIu-Dz-qj6" id="kfc-CW-L8p"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Byr-XA-3a1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
