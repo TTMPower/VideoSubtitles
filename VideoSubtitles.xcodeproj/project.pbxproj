@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A3CB97E26BA4FFB00EC8A93 /* SliderControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3CB97D26BA4FFB00EC8A93 /* SliderControl.swift */; };
 		3A4EF5DC26B941160084E308 /* AddSubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4EF5DB26B941160084E308 /* AddSubViewController.swift */; };
+		3A6A472826C16E89002727FE /* SubEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6A472726C16E88002727FE /* SubEditViewController.swift */; };
+		3A6A472A26C239BA002727FE /* additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6A472926C239B9002727FE /* additions.swift */; };
+		3A6A472C26C2588F002727FE /* MyPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6A472B26C2588F002727FE /* MyPlayer.swift */; };
 		3A8579C226B3FFD600B89E6D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8579C126B3FFD600B89E6D /* AppDelegate.swift */; };
 		3A8579C426B3FFD600B89E6D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8579C326B3FFD600B89E6D /* SceneDelegate.swift */; };
 		3A8579C926B3FFD600B89E6D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A8579C726B3FFD600B89E6D /* Main.storyboard */; };
@@ -15,11 +19,14 @@
 		3A8579CE26B3FFDA00B89E6D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A8579CC26B3FFDA00B89E6D /* LaunchScreen.storyboard */; };
 		3A8579E426B7DA1E00B89E6D /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8579E326B7DA1E00B89E6D /* PickerViewController.swift */; };
 		3AFC46BE26B7F3B50077854B /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFC46BD26B7F3B50077854B /* EditorViewController.swift */; };
-		3AFC46C226B916A90077854B /* MyCustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFC46C126B916A90077854B /* MyCustomSlider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A3CB97D26BA4FFB00EC8A93 /* SliderControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderControl.swift; sourceTree = "<group>"; };
 		3A4EF5DB26B941160084E308 /* AddSubViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSubViewController.swift; sourceTree = "<group>"; };
+		3A6A472726C16E88002727FE /* SubEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubEditViewController.swift; sourceTree = "<group>"; };
+		3A6A472926C239B9002727FE /* additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = additions.swift; sourceTree = "<group>"; };
+		3A6A472B26C2588F002727FE /* MyPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlayer.swift; sourceTree = "<group>"; };
 		3A8579BE26B3FFD600B89E6D /* VideoSubtitles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoSubtitles.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A8579C126B3FFD600B89E6D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A8579C326B3FFD600B89E6D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -29,7 +36,6 @@
 		3A8579CF26B3FFDA00B89E6D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A8579E326B7DA1E00B89E6D /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 		3AFC46BD26B7F3B50077854B /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
-		3AFC46C126B916A90077854B /* MyCustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCustomSlider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +49,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A3CB97C26BA4FD200EC8A93 /* Slider */ = {
+			isa = PBXGroup;
+			children = (
+				3A3CB97D26BA4FFB00EC8A93 /* SliderControl.swift */,
+			);
+			path = Slider;
+			sourceTree = "<group>";
+		};
+		3A6A472D26C25F15002727FE /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				3A6A472B26C2588F002727FE /* MyPlayer.swift */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		3A6A472E26C25F1E002727FE /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				3A6A472926C239B9002727FE /* additions.swift */,
+			);
+			path = Additions;
+			sourceTree = "<group>";
+		};
+		3A6A472F26C25F37002727FE /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				3A8579E326B7DA1E00B89E6D /* PickerViewController.swift */,
+				3AFC46BD26B7F3B50077854B /* EditorViewController.swift */,
+				3A4EF5DB26B941160084E308 /* AddSubViewController.swift */,
+				3A6A472726C16E88002727FE /* SubEditViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		3A8579B526B3FFD600B89E6D = {
 			isa = PBXGroup;
 			children = (
@@ -65,10 +106,10 @@
 				3A8579C126B3FFD600B89E6D /* AppDelegate.swift */,
 				3A8579C326B3FFD600B89E6D /* SceneDelegate.swift */,
 				3A8579C726B3FFD600B89E6D /* Main.storyboard */,
-				3A4EF5DB26B941160084E308 /* AddSubViewController.swift */,
-				3A8579E326B7DA1E00B89E6D /* PickerViewController.swift */,
-				3AFC46BD26B7F3B50077854B /* EditorViewController.swift */,
-				3AFC46C126B916A90077854B /* MyCustomSlider.swift */,
+				3A3CB97C26BA4FD200EC8A93 /* Slider */,
+				3A6A472E26C25F1E002727FE /* Additions */,
+				3A6A472D26C25F15002727FE /* Player */,
+				3A6A472F26C25F37002727FE /* ViewControllers */,
 				3A8579CA26B3FFDA00B89E6D /* Assets.xcassets */,
 				3A8579CC26B3FFDA00B89E6D /* LaunchScreen.storyboard */,
 				3A8579CF26B3FFDA00B89E6D /* Info.plist */,
@@ -146,10 +187,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A6A472826C16E89002727FE /* SubEditViewController.swift in Sources */,
+				3A6A472A26C239BA002727FE /* additions.swift in Sources */,
 				3A8579C226B3FFD600B89E6D /* AppDelegate.swift in Sources */,
 				3A4EF5DC26B941160084E308 /* AddSubViewController.swift in Sources */,
+				3A6A472C26C2588F002727FE /* MyPlayer.swift in Sources */,
+				3A3CB97E26BA4FFB00EC8A93 /* SliderControl.swift in Sources */,
 				3A8579E426B7DA1E00B89E6D /* PickerViewController.swift in Sources */,
-				3AFC46C226B916A90077854B /* MyCustomSlider.swift in Sources */,
 				3A8579C426B3FFD600B89E6D /* SceneDelegate.swift in Sources */,
 				3AFC46BE26B7F3B50077854B /* EditorViewController.swift in Sources */,
 			);
@@ -228,7 +272,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -283,7 +327,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
