@@ -37,6 +37,10 @@ class SliderControl: UIControl {
         fatalError("init(coder:) fatal error")
     }
     private func updateLayerFrames() {
+        /*FIXME:
+            Лучше не привязывать размер контрола к размеру содержимого(thumbImage.size).
+            Хороший вариант - задавать размер thumbImageView статически. например: CGSize(width: 44, height: 44)
+         */
         thumbImageView.frame = CGRect(origin: thumbOriginForValue(lowerValue),
                                       size: thumbImage!.size)
     }
@@ -55,11 +59,35 @@ extension SliderControl {
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         previousLocation = touch.location(in: self)
         if thumbImageView.frame.contains(previousLocation) {
+            /* FIXME:
+             использование isHighlighted для индикации начала тача не лучшая идея, так как
+             данная переменная используется для управления UI (This property determines whether the regular or highlighted images are used) и следовательно будет иметь side effect. Лучшее решение будет создать переменную класса (напрмер isActionRunning) и задавать ее при начале тача, сбрасывать при отпускании тача, проверять при перемещении тача перед тем как выполнить логику.
+             */
             thumbImageView.isHighlighted = true
         }
         
         return thumbImageView.isHighlighted
     }
+    /* FIXME:
+     Здесь основная проблема в перемешивании UI и бизнесс логики. Получается следующая последовательность:
+        1. Из позиции thumb расчитывается value (delta + minimumValue)
+        2. Value ограничевается сверху и снизу(boundValue(...))
+        3. Исходя из value расчитывается положение thumb
+     
+     Правильнее разделить UI и бизнесс логику.
+        1. Позиция thumbImageView должна задаваться исходя из позиции тача (центр тача = центр thumbImageView). Этим обеспечивается отзывачивость интерфеса.
+        2. Value должно рассчитваться исходя из положения thumbImageView в контейнере. Таким образом значение слайдера точно соответствует его визуальному представлению.
+        3. Когда Value задается снаружи слайдера (например AVPlayer-ом) положение должно быть рассчитано из Value.
+        pseudocode: {
+            let visualRange = A...B
+            let valueRange = a...b
+            
+            var visualValue = ...
+            var value = ...
+            value = a + visualValue / visualRange.length * valueRange.length
+            visualValue = A + value / valueRange.length * visualRange.length
+        }
+    */
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         let location = touch.location(in: self)
         
@@ -72,6 +100,7 @@ extension SliderControl {
             lowerValue = boundValue(value, toLowerValue: minimumValue, toMaxValue: maximumValue)
         }
         
+        //FIXME: тут возможно заворачивание в транзакции не особо полезно
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         updateLayerFrames()

@@ -9,6 +9,10 @@ import Foundation
 import AVFoundation
 import UIKit
 
+/*
+ FIXME: Здесь хотелось бы перейти от временного деления по секундам к милисекундам для более плавного UX. Ниже описал предложения.
+ */
+
 class MyPlayer {
     
     static var share = MyPlayer()
@@ -40,6 +44,7 @@ class MyPlayer {
             playerLayer = AVPlayerLayer(player: player)
             playerLayer.videoGravity = .resizeAspect
             playerOut.layer.addSublayer(playerLayer)
+        //FIXME: Здесь стоит вместо CMTime использовать CMTimeMake(a, b) (здесь время = a/b) и задать интервал в частоту кадров экрана (примерно 30). Однако после этого движение слайдера всеравно дергается.
         let interval = CMTime(seconds: 1, preferredTimescale: 2)
         timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { [weak self] time in
             
@@ -50,6 +55,9 @@ class MyPlayer {
     
     func updateVideoPlayerSlider(time: CMTime, subOutlet: UILabel, timeLine: UILabel) {
         guard let currentTime = player?.currentTime() else { return }
+        //FIXME: Попробуй вместо CMTimeGetSeconds использовать
+        //        Float(currentTime.value) / Float(currentTime.timescale)
+        // это должно вернуть время в долях секунды
         let currentTimeInSeconds = CMTimeGetSeconds(currentTime)
         slider.lowerValue = CGFloat(currentTimeInSeconds)
         if let currentItem = player?.currentItem {
