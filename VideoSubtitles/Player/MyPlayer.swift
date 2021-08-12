@@ -21,6 +21,12 @@ class MyPlayer {
     var sliderFrame = CGRect()
     
     
+    func getFPS() -> Float {
+        let frametimeOfVideo = (player.currentItem?.asset.tracks.first?.nominalFrameRate)!
+        return frametimeOfVideo
+    }
+    
+    
     func setupVideoPlayer(label: UILabel, playerOut: UIView,urlVideo: URL) {
         //MARK: время видео
         let asset = AVURLAsset(url: urlVideo)
@@ -37,7 +43,8 @@ class MyPlayer {
     
     func updateSliderTime(timeLine: UILabel, subOutlet: UILabel) {
         slider.updateLayerFrames()
-        let interval = CMTimeMake(value: 1, timescale: 30)
+        print("Video FPS: \(getFPS())")
+        let interval = CMTimeMake(value: 1, timescale: Int32(getFPS()))
         timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { [weak self] time in
             self?.updateVideoPlayerSlider(time: time, subOutlet: subOutlet, timeLine: timeLine)
         })
@@ -46,12 +53,12 @@ class MyPlayer {
     func updateVideoPlayerSlider(time: CMTime, subOutlet: UILabel, timeLine: UILabel) {
         slider.updateLayerFrames()
         guard let currentTime = player?.currentTime() else { return }
-        let currentTimeInSeconds = CMTimeGetSeconds(currentTime)
+        let currentTimeInSeconds = Float(currentTime.value) / Float(currentTime.timescale)
         slider.lowerValue = Float(currentTimeInSeconds)
         if let currentItem = player?.currentItem {
             let duration = currentItem.duration
             let durationinSeconds = CMTimeGetSeconds(duration)
-            self.slider.lowerValue = Float(currentTimeInSeconds / durationinSeconds)
+            self.slider.lowerValue = Float(currentTimeInSeconds / Float(durationinSeconds))
             if (CMTIME_IS_INVALID(duration)) {
                 return;
             }
@@ -80,7 +87,9 @@ class MyPlayer {
         player.pause()
         guard let duration = player?.currentItem?.duration else { return }
         let value = Float64(slider.lowerValue) * CMTimeGetSeconds(duration)
-        let seekTime = CMTime(value: CMTimeValue(value), timescale: CMTimeScale(1))
+        print(value)
+        let seekTime = CMTime(seconds: value, preferredTimescale: 1)
+        print(seekTime)
         player?.seek(to: seekTime )
         outputValue = Float(value)
         
