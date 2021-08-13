@@ -9,6 +9,10 @@ import Foundation
 import AVFoundation
 import UIKit
 
+/*
+ FIXME: Здесь хотелось бы перейти от временного деления по секундам к милисекундам для более плавного UX. Ниже описал предложения.
+ */
+
 class MyPlayer {
     
     static var share = MyPlayer()
@@ -53,6 +57,9 @@ class MyPlayer {
     func updateVideoPlayerSlider(time: CMTime, subOutlet: UILabel, timeLine: UILabel) {
         slider.updateLayerFrames()
         guard let currentTime = player?.currentTime() else { return }
+        //FIXME: Попробуй вместо CMTimeGetSeconds использовать
+        //        Float(currentTime.value) / Float(currentTime.timescale)
+        // это должно вернуть время в долях секунды
         let currentTimeInSeconds = CMTimeGetSeconds(currentTime)
         slider.lowerValue = CGFloat(currentTimeInSeconds)
         if let currentItem = player?.currentItem {

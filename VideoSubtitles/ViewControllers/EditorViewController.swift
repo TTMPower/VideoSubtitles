@@ -1,6 +1,17 @@
 import UIKit
 import AVFoundation
 
+class Subtitle {
+    var startTime: CMTime = CMTime.zero
+    var endTime: CMTime = CMTime.zero
+    var text: String = ""
+    
+    func containsTime(time: CMTime) -> Bool {
+        //проверям попадание текущего времени в диапазон субтитра
+        fatalError("Нужно реализовать метод containsTime(time: CMTime) ")
+    }
+}
+
 class EditorViewController: UIViewController {
     
     var getSlider = SliderControl.share
@@ -25,6 +36,9 @@ class EditorViewController: UIViewController {
     var arraySubtitles = [String]()
     
     var myButtons = UIButton()
+    
+    //текущий отображаемый субтитр
+    var currentSubtitle: Subtitle? = nil
     
     @IBOutlet weak var subtitlesOutlet: UILabel!
     @IBOutlet weak var timeLineLabel: UILabel!
@@ -138,6 +152,17 @@ class EditorViewController: UIViewController {
         popOverVC?.sourceView = self.myButtons
         self.present(popVC, animated: true)
     }
+    
+    func addSubtitles(text: String) {
+        subtitlesOutlet.text = text
+    }
+    
+    func getSubtitleByTime(time: CMTime) -> [Subtitle] {
+        //Необходимо найти субтитры из списка по времени
+        //Возвращаем массив на случай если субтитры перекрываются
+        fatalError("Нужно реализовать метод getSubtitleByTime(time: CMTime)")
+    }
+    
 }
 
 
@@ -172,9 +197,24 @@ extension EditorViewController: AddSubDelegate {
             let cm = CMTime(seconds: Double(el), preferredTimescale: CMTimeScale(NSEC_PER_USEC))
             times.append(NSValue(time: cm))
         }
+        //время здесь нужно только начала и конца
         timeObserverToken = getPlayer.player.addBoundaryTimeObserver(forTimes: times, queue: DispatchQueue.main, using: {
             [weak self] in
-            self?.subtitlesOutlet.text = sub
+            guard let self = self else { return }
+            let currentTime = self.getPlayer.player.currentTime()
+            //проверяем завершился ли текущий субтитр
+            if !(self.currentSubtitle?.containsTime(time: currentTime) ?? false ) {
+                self.currentSubtitle = nil
+                self.subtitlesOutlet.text = ""
+                self.subtitlesOutlet.isHidden = true
+            }
+            if self.currentSubtitle == nil {
+                //далее проверяем нужно ли что отобразить из списка субтитров
+                    let subtitlesAvailable = self.getSubtitleByTime(time: currentTime)
+                    if subtitlesAvailable.count > 0 {
+                        //отображаем субититр
+                }
+            }
         })
         arrayTokens?.append(timeObserverToken!)
         arrayColor.append(color)
